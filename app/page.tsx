@@ -20,7 +20,7 @@ export default function Home() {
         ></div>
         <div className=" absolute left-0 right-0 top-0 bottom-0 w-[150px] m-auto flex justify-center items-center">
           <Image
-            src="/images/logo.png"
+            src="https://buxgpprwecixpghvntli.supabase.co/storage/v1/object/public/mindpad/assets/logo.png"
             alt="MindPad Logo"
             width={150}
             height={150}
