@@ -35,12 +35,16 @@ export default function Home() {
       </div>
       <div className="max-w-3xl  m-auto bg-no-repeat  flex flex-col justify-center items-center bg-opacity-20">
         <div className=" flex flex-col ">
-          <button className=" bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg h-12">
-            <LoginLink>Sign in</LoginLink>
-          </button>
-          <button className=" backdrop-blur-md border p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg font-bold h-12 text-gray-500">
-            <RegisterLink>Sign up</RegisterLink>
-          </button>
+          <LoginLink>
+            <button className=" bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg h-12">
+              Sign in
+            </button>
+          </LoginLink>
+          <RegisterLink>
+            <button className=" backdrop-blur-md border p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg font-bold h-12 text-gray-500">
+              Sign up
+            </button>
+          </RegisterLink>
         </div>
       </div>
     </main>
