@@ -33,7 +33,7 @@ export default function Pad({
         <div className="flex justify-between items-center">
           <div>
             <button
-              className=""
+              className=" focus:outline-none"
               onClick={() => {
                 dispatch(setSelectedPad(null));
               }}
@@ -42,7 +42,7 @@ export default function Pad({
             </button>
           </div>
           <div>
-            <button className="">Save</button>
+            <button className=" focus:outline-none">Save</button>
           </div>
         </div>
       </div>
