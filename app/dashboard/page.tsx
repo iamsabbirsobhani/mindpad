@@ -47,6 +47,14 @@ export default async function Note() {
             </div>
           </div>
         </div>
+
+        {/* Notes title */}
+        <div className="mt-2 mb-2">
+          <h1 className=" text-5xl font-extrabold">Notes</h1>
+        </div>
+
+        {/* notes */}
+        <div></div>
       </div>
     </>
   );
