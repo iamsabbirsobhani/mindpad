@@ -49,7 +49,7 @@ export default function ClientDashboard({
           <div className="mr-5 relative">
             <div className="relative">
               <button
-                className="bg-gray-800 rounded-full w-10 h-10 text-gray-50 font-bold mr-5"
+                className=" rounded-full w-10 h-10 text-gray-50 font-bold mr-5"
                 ref={modalRef}
                 onClick={() => {
                   setisprofilemenuopen(!isprofilemenuopen);
