@@ -1,5 +1,7 @@
 'use client';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
@@ -12,6 +14,7 @@ export default function ClientDashboard({
 }) {
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
   const modalRef = useRef(null);
+  const count = useAppSelector((state: RootState) => state.ui.count);
 
   useOutsideClick(() => {
     setisprofilemenuopen(false);
@@ -94,7 +97,7 @@ export default function ClientDashboard({
         </div>
 
         {/* notes */}
-        <div></div>
+        <div>{count}</div>
       </div>
     </>
   );
