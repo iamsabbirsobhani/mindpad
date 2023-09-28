@@ -81,7 +81,7 @@ export default function ClientDashboard({
             <div
               ref={modalRef}
               className={
-                `transition-all duration-300 absolute right-5 mt-1 bg-white rounded-xl shadow-lg ` +
+                `transition-all duration-300 absolute right-5 mt-1 bg-white rounded-xl shadow-lg z-10 ` +
                 `${
                   isprofilemenuopen
                     ? 'visible opacity-100'
@@ -99,17 +99,13 @@ export default function ClientDashboard({
           <h1 className=" text-5xl font-extrabold text-gray-800">Notes</h1>
         </div>
 
+        {/* new pad */}
+        <div className="">
+          <Pad color={selectedpadStyle?.color} style={selectedpadStyle} />
+        </div>
+
         {/* notes */}
         <div className="flex flex-wrap">
-          <div
-            className={`transition-all duration-700 block ${
-              selectedpadStyle
-                ? ' w-60  ease-[cubic-bezier(.14,-0.26,.4,1.56)]'
-                : ' w-0 ease-[cubic-bezier(.14,-0.26,.4,1.56)]'
-            }`}
-          >
-            <Pad color={selectedpadStyle?.color} style={selectedpadStyle} />
-          </div>
           <Pad color={'bg-red-500  '} style={{ id: 1, color: '', hover: '' }} />
           <Pad
             color={'bg-green-500 '}

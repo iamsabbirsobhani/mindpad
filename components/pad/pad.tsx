@@ -21,8 +21,8 @@ export default function Pad({
           ` ${color}  rounded-2xl p-3 transition-all duration-700 shadow-md relative m-3 w-52 ` +
           `${
             style
-              ? ' right-0 h-52  visible opacity-100  ease-[cubic-bezier(.14,-0.26,.4,1.56)]'
-              : ' right-full h-0  invisible opacity-0 ease-[cubic-bezier(.14,-0.26,.29,1.35)] '
+              ? ' right-0 h-52  visible opacity-100  ease-[cubic-bezier(.05,.31,.33,1.33)]'
+              : ' right-full h-0  invisible opacity-0 ease-[cubic-bezier(.05,.31,.33,1.33)] '
           }`
         }
       >
