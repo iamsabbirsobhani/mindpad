@@ -33,7 +33,7 @@ export default function Home() {
           Your digital notepad for organizing your thoughts
         </h1>
       </div>
-      <div className="max-w-3xl  m-auto bg-no-repeat  flex flex-col justify-center items-center bg-opacity-20">
+      <div className="max-w-3xl focus:outline-none m-auto bg-no-repeat  flex flex-col justify-center items-center bg-opacity-20">
         <div className=" flex flex-col ">
           <LoginLink>
             <button className=" bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg h-12">
