@@ -52,8 +52,8 @@ export default function DesktopDrawer() {
         <button
           className={`bg-gray-800 hover:bg-gray-600 rounded-full w-11 h-11 flex justify-center items-center text-gray-50 shadow-lg transition-all duration-700 relative ${
             isopen
-              ? ' -top-2 rotate-45  transition-all duration-700 '
-              : ' rotate-0 top-0 transition-all duration-700'
+              ? ' -top-2 rotate-45  transition-all duration-300 ease-out-[cubic-bezier(.05,.31,.33,1.33)]'
+              : ' rotate-0 top-0 transition-all duration-300   ease-[cubic-bezier(.05,.31,.33,1.33)]'
           }}`}
           onClick={() => setisopen(!isopen)}
         >
