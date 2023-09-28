@@ -1,4 +1,5 @@
 'use client';
+import Pad from '@/components/pad/pad';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -14,7 +15,9 @@ export default function ClientDashboard({
 }) {
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
   const modalRef = useRef(null);
-  const count = useAppSelector((state: RootState) => state.ui.count);
+  const selectedpadStyle = useAppSelector(
+    (state: RootState) => state.ui.selectedPad,
+  );
 
   useOutsideClick(() => {
     setisprofilemenuopen(false);
@@ -97,7 +100,23 @@ export default function ClientDashboard({
         </div>
 
         {/* notes */}
-        <div>{count}</div>
+        <div className="flex flex-wrap">
+          <div
+            className={`transition-all duration-700 block ${
+              selectedpadStyle
+                ? ' w-60  ease-[cubic-bezier(.14,-0.26,.4,1.56)]'
+                : ' w-0 ease-[cubic-bezier(.14,-0.26,.4,1.56)]'
+            }`}
+          >
+            <Pad color={selectedpadStyle?.color} style={selectedpadStyle} />
+          </div>
+          <Pad color={'bg-red-500  '} style={{ id: 1, color: '', hover: '' }} />
+          <Pad
+            color={'bg-green-500 '}
+            style={{ id: 1, color: '', hover: '' }}
+          />
+          <Pad color={'bg-lime-500 '} style={{ id: 1, color: '', hover: '' }} />
+        </div>
       </div>
     </>
   );

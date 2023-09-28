@@ -1,9 +1,12 @@
 'use client';
+import { setSelectedPad } from '@/features/ui/uiSlice';
+import { useAppDispatch } from '@/store/hooks';
 import Image from 'next/image';
 import { useState } from 'react';
 
 export default function DesktopDrawer() {
   const [isopen, setisopen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const items = [
     {
@@ -34,7 +37,7 @@ export default function DesktopDrawer() {
   ];
 
   return (
-    <div className="h-[100vh] border-r-[1px] w-20 fixed top-0 left-0 p-2 bottom-0">
+    <div className="h-full border-r-[1px] w-20 fixed top-0 left-0 p-2 bottom-0 bg-white z-10 ">
       <div className="mt-3">
         <Image
           src="/images/icon.png"
@@ -85,6 +88,7 @@ export default function DesktopDrawer() {
                 className={` w-5 h-5 transition-all duration-300 rounded-full  m-auto mt-4 shadow-md cursor-pointer hover:${item.hover} ${item.color}`}
                 onClick={() => {
                   console.log(item.id);
+                  dispatch(setSelectedPad(item));
                 }}
               ></button>
             </div>
