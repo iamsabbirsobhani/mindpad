@@ -35,15 +35,11 @@ export default function Home() {
       </div>
       <div className="max-w-3xl focus:outline-none m-auto bg-no-repeat  flex flex-col justify-center items-center bg-opacity-20">
         <div className=" flex flex-col ">
-          <LoginLink className="focus:outline-none">
-            <button className="focus:outline-none bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg h-12 hover:bg-blue-600 duration-300">
-              Sign in
-            </button>
+          <LoginLink className=" text-center flex justify-center items-center focus:outline-none bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase  shadow-lg h-12 border hover:bg-blue-600 duration-300">
+            Sign in
           </LoginLink>
-          <RegisterLink className="focus:outline-none">
-            <button className="focus:outline-none backdrop-blur-md border p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg font-bold h-12 text-gray-500 hover:bg-gray-100 hover:text-gray-600 duration-300">
-              Sign up
-            </button>
+          <RegisterLink className="text-center flex justify-center items-center focus:outline-none backdrop-blur-md border p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg font-bold h-12 text-gray-500 hover:bg-gray-100 hover:text-gray-600 duration-300">
+            Sign up
           </RegisterLink>
         </div>
       </div>

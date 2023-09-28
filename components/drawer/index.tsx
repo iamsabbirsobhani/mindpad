@@ -1,3 +1,4 @@
+'use client';
 import DesktopDrawer from './desktop/DesktopDrawer';
 
 export default function Drawer() {
