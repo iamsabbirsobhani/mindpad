@@ -72,17 +72,20 @@ export default function DesktopDrawer() {
       </div>
 
       <div
-        className={`mt-3 overflow-hidden ${
+        className={`mt-3 overflow-hidden  delay-300 ${
           isopen
             ? ' max-h-full transition-all duration-700 ease-in-out'
-            : ' max-h-0 transition-all duration-700 ease-in-out'
+            : ' max-h-[0%] transition-all duration-700 ease-in-out'
         }`}
       >
         {isopen &&
           items.map((item, index) => (
             <div key={item.id} className=" text-center">
               <button
-                className={`w-5 h-5 transition-all duration-300 rounded-full  m-auto mt-4 shadow-md cursor-pointer hover:${item.hover} ${item.color}`}
+                className={` w-5 h-5 transition-all duration-300 rounded-full  m-auto mt-4 shadow-md cursor-pointer hover:${item.hover} ${item.color}`}
+                onClick={() => {
+                  console.log(item.id);
+                }}
               ></button>
             </div>
           ))}

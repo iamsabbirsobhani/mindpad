@@ -16,9 +16,10 @@ model User {
 }
 
 model Pad {
-    id       Int    @id @default(autoincrement())
-    title    String
-    note     String
-    author   User   @relation(fields: [authorId], references: [id])
-    authorId Int
+    id        Int     @id @default(autoincrement())
+    title     String
+    note      String
+    important Boolean @default(false)
+    author    User    @relation(fields: [authorId], references: [id])
+    authorId  Int
 }

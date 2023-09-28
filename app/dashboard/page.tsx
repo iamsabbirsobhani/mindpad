@@ -11,10 +11,11 @@ export default async function Note() {
       <Drawer />
       <div className=" relative left-24">
         <LogoutLink>
-          <button className="hover:bg-blue-600 transition-all duration-300 bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg h-12">
+          <button className="hover:bg-blue-600 transition-all duration-300 bg-blue-500 font-bold text-gray-50 p-2 rounded-md w-48 self-center m-2 uppercase shadow-lg h-10">
             Log out
           </button>
         </LogoutLink>
+        <div></div>
       </div>
     </>
   );
