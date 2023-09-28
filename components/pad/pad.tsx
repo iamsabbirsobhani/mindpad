@@ -22,7 +22,7 @@ export default function Pad({
           `${
             style
               ? ' right-0 h-52  visible opacity-100  ease-[cubic-bezier(.05,.31,.33,1.33)]'
-              : ' right-full h-0  invisible opacity-0 ease-[cubic-bezier(.05,.31,.33,1.33)] '
+              : ' right-full h-0  invisible opacity-0 ease-out-[cubic-bezier(.05,.31,.33,1.33)] '
           }`
         }
       >
