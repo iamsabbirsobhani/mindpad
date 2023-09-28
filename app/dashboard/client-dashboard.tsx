@@ -31,7 +31,7 @@ export default function ClientDashboard({
           <div className=" relative">
             <input
               type="search"
-              className="focus:outline-none ml-7"
+              className="focus:outline-none ml-7 w-40 sm:w-28 md:w-32 lg:w-32 xl:w-96 2xl:w-96"
               placeholder="Search"
             />
             <div className="absolute flex justify-center items-center top-0  bottom-0">
@@ -55,7 +55,7 @@ export default function ClientDashboard({
           <div className="mr-5 relative">
             <div className="relative">
               <button
-                className=" rounded-full w-10 h-10 text-gray-50 font-bold mr-5"
+                className="ml-2 rounded-full w-10 h-10 text-gray-50 font-bold mr-5"
                 ref={modalRef}
                 onClick={() => {
                   setisprofilemenuopen(!isprofilemenuopen);
