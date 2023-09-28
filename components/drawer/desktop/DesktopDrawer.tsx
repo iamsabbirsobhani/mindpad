@@ -34,7 +34,7 @@ export default function DesktopDrawer() {
   ];
 
   return (
-    <div className="h-[100vh] border-r-[1px] w-20 fixed top-0 left-0 p-2">
+    <div className="h-[100vh] border-r-[1px] w-20 fixed top-0 left-0 p-2 bottom-0">
       <div className="mt-3">
         <Image
           src="/images/icon.png"
