@@ -45,18 +45,9 @@ export async function POST(request: Request) {
         },
       });
 
-      // const padStyle = await prisma.padStyle.create({
-      //   data: {
-      //     color: body.color,
-      //     hover: body.hover,
-      //     padId: pad.id,
-      //   },
-      // });
-
       return NextResponse.json({
         success: true,
         pad,
-        // padStyle,
         status: 200,
       });
     }
