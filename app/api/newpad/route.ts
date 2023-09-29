@@ -26,6 +26,7 @@ export async function POST(request: Request) {
         note: body.note || '',
       },
     });
+
     const padStyle = await prisma.padStyle.create({
       data: {
         color: body.color,
