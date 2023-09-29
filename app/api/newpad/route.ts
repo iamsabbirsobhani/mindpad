@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         authorEmail: user.email || '',
         authorName: user.given_name || '',
         authorProfilePhoto: user.picture || '',
-        note: body.note,
+        note: body.note || '',
       },
     });
     const padStyle = await prisma.padStyle.create({
