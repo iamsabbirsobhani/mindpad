@@ -24,6 +24,7 @@ export async function POST(request: Request) {
         authorName: user.given_name || '',
         authorProfilePhoto: user.picture || '',
         note: body.note || '',
+        isImportant: false,
       },
     });
 
