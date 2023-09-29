@@ -25,21 +25,27 @@ export async function POST(request: Request) {
         authorProfilePhoto: user.picture || '',
         note: body.note || '',
         isImportant: false,
+        padStyles: {
+          create: {
+            color: body.color || '',
+            hover: body.hover || '',
+          },
+        },
       },
     });
 
-    const padStyle = await prisma.padStyle.create({
-      data: {
-        color: body.color,
-        hover: body.hover,
-        padId: pad.id,
-      },
-    });
+    // const padStyle = await prisma.padStyle.create({
+    //   data: {
+    //     color: body.color,
+    //     hover: body.hover,
+    //     padId: pad.id,
+    //   },
+    // });
 
     return NextResponse.json({
       success: true,
       pad,
-      padStyle,
+      // padStyle,
       status: 200,
     });
   } catch (error) {
