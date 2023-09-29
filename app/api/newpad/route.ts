@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import prisma from '@/app/lib/prisma';
+import { PrismaClient } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       body.color &&
       body.hover
     ) {
+      const prisma = new PrismaClient();
       const pad = await prisma.pad.create({
         data: {
           authorEmail: user.email,
