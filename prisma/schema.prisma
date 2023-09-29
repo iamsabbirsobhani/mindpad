@@ -7,19 +7,24 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model User {
-    id           Int     @id @default(autoincrement())
-    email        String  @unique
-    name         String
-    profilePhoto String?
-    pads         Pad[]
+model Pad {
+    id                 Int        @id @default(autoincrement())
+    authorEmail        String
+    authorName         String
+    authorProfilePhoto String?
+    note               String
+    isImportant        Boolean    @default(false)
+    padStyles          PadStyle[]
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
 }
 
-model Pad {
-    id          Int     @id @default(autoincrement())
-    title       String
-    note        String
-    isImportant Boolean @default(false)
-    author      User    @relation(fields: [authorId], references: [id])
-    authorId    Int
+model PadStyle {
+    id        Int      @id @default(autoincrement())
+    color     String
+    hover     String
+    pad       Pad      @relation(fields: [padId], references: [id])
+    padId     Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
