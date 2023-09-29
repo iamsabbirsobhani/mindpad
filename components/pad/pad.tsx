@@ -41,6 +41,7 @@ export default function Pad({
         const pad = await res.json();
         if (pad && pad.status === 200) {
           formRef.current.reset();
+          dispatch(setSelectedPad(null));
         }
         console.log({ pad, msg: 'pad created' });
       }
