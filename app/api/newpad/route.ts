@@ -24,18 +24,20 @@ export async function POST(request: Request) {
         authorName: user.given_name || '',
         authorProfilePhoto: user.picture || '',
         note: body.note,
-        padStyles: {
-          create: {
-            color: body.color,
-            hover: body.hover,
-          },
-        },
+      },
+    });
+    const padStyle = await prisma.padStyle.create({
+      data: {
+        color: body.color,
+        hover: body.hover,
+        padId: pad.id,
       },
     });
 
     return NextResponse.json({
       success: true,
       pad,
+      padStyle,
       status: 200,
     });
   } catch (error) {
