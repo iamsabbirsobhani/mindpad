@@ -18,36 +18,47 @@ export async function POST(request: Request) {
       });
     }
 
-    const pad = await prisma.pad.create({
-      data: {
-        authorEmail: user.email || '',
-        authorName: user.given_name || '',
-        authorProfilePhoto: user.picture || '',
-        note: body.note || '',
-        isImportant: false,
-        padStyles: {
-          create: {
-            color: body.color || '',
-            hover: body.hover || '',
+    if (
+      user &&
+      user.email &&
+      user.given_name &&
+      user.picture &&
+      body &&
+      body.note &&
+      body.color &&
+      body.hover
+    ) {
+      const pad = await prisma.pad.create({
+        data: {
+          authorEmail: user.email,
+          authorName: user.given_name,
+          authorProfilePhoto: user.picture,
+          note: body.note,
+          isImportant: false,
+          padStyles: {
+            create: {
+              color: body.color,
+              hover: body.hover,
+            },
           },
         },
-      },
-    });
+      });
 
-    // const padStyle = await prisma.padStyle.create({
-    //   data: {
-    //     color: body.color,
-    //     hover: body.hover,
-    //     padId: pad.id,
-    //   },
-    // });
+      // const padStyle = await prisma.padStyle.create({
+      //   data: {
+      //     color: body.color,
+      //     hover: body.hover,
+      //     padId: pad.id,
+      //   },
+      // });
 
-    return NextResponse.json({
-      success: true,
-      pad,
-      // padStyle,
-      status: 200,
-    });
+      return NextResponse.json({
+        success: true,
+        pad,
+        // padStyle,
+        status: 200,
+      });
+    }
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error, status: 500 });
