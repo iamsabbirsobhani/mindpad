@@ -7,7 +7,7 @@
 
 <img src="https://firebasestorage.googleapis.com/v0/b/general-eadd6.appspot.com/o/mindpad%2FScreenshot%202023-09-30%20183711.png?alt=media&token=bca6cd6a-fa35-4286-a8c0-94d8502d48cb&_gl=1*cpam3b*_ga*MTI0MDY2NDcwMC4xNjk0MzIwMTM5*_ga_CW55HF8NVT*MTY5NjA3NTU2Ni4xMC4xLjE2OTYwNzc1NDQuNjAuMC4w" alt="MindPad Gif" width="800" />
 
-# Your digital notepad for organizing your thoughts
+### Your digital notepad for organizing your thoughts
 
 ## MindPad: Your Ultimate Digital Note-Taking Solution
 
