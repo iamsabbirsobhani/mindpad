@@ -79,7 +79,6 @@ export default function Pad({
 
   const handleEditPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('edit');
     try {
       setisLoading(true);
       if (e.currentTarget) {
@@ -87,8 +86,7 @@ export default function Pad({
         const form = e.currentTarget;
         const formData = new FormData(form);
         const padData = Object.fromEntries(formData.entries());
-        console.log(padData);
-        console.log(data.id, data.authorEmail);
+
         const postData = {
           note: padData.note,
           id: data.id,
@@ -138,6 +136,54 @@ export default function Pad({
   const closeErrorMsg = () => {
     sethasErrorMsg(false);
     seterrorMsg('');
+  };
+
+  const deletePad = async () => {
+    try {
+      setisLoading(true);
+
+      const delData = {
+        id: data.id,
+        padStyleId: data.padStyles[0].id,
+        authorEmail: data.authorEmail,
+      };
+
+      const res = await fetch('/api/pad/delete', {
+        method: 'POST',
+        body: JSON.stringify(delData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.status === 200) {
+        const pad = await res.json();
+        if (pad && pad.status === 200) {
+          dispatch(setSelectedPad(null));
+          window.location.reload();
+          setisLoading(false);
+          setisEdit(false);
+        } else {
+          setisLoading(false);
+          setisEdit(false);
+          sethasErrorMsg(true);
+          seterrorMsg(pad);
+          console.log(pad);
+        }
+      } else {
+        setisLoading(false);
+        console.log('error');
+        sethasErrorMsg(true);
+        seterrorMsg('Something went wrong!');
+        setisEdit(false);
+      }
+    } catch (error) {
+      console.log(error);
+      sethasErrorMsg(true);
+      seterrorMsg('Something went wrong!');
+      setisLoading(false);
+      setisEdit(false);
+    }
   };
 
   return (
@@ -354,7 +400,9 @@ export default function Pad({
               <button
                 className=" focus:outline-none bg-rose-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-rose-400 transition-all duration-300"
                 type="button"
-                onClick={() => {}}
+                onClick={() => {
+                  deletePad();
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
