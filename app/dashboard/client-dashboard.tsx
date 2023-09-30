@@ -9,9 +9,11 @@ import { useRef, useState } from 'react';
 export default function ClientDashboard({
   children,
   user,
+  pads,
 }: {
   children: React.ReactNode;
   user: any;
+  pads: any;
 }) {
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
   const modalRef = useRef(null);
@@ -22,6 +24,8 @@ export default function ClientDashboard({
   useOutsideClick(() => {
     setisprofilemenuopen(false);
   }, modalRef);
+
+  console.log(pads);
 
   return (
     <>
@@ -101,17 +105,27 @@ export default function ClientDashboard({
 
         {/* new pad */}
         <div className="">
-          <Pad color={selectedpadStyle?.color} style={selectedpadStyle} />
+          <Pad
+            color={selectedpadStyle?.color}
+            style={selectedpadStyle}
+            isNewPad={true}
+          />
         </div>
 
         {/* notes */}
         <div className="flex flex-wrap">
-          <Pad color={'bg-red-500  '} style={{ id: 1, color: '', hover: '' }} />
-          <Pad
-            color={'bg-green-500 '}
-            style={{ id: 1, color: '', hover: '' }}
-          />
-          <Pad color={'bg-lime-500 '} style={{ id: 1, color: '', hover: '' }} />
+          {pads &&
+            pads.pad &&
+            pads.pad.length > 0 &&
+            pads.pad.map((pad: any) => (
+              <Pad
+                key={pad.id}
+                color={pad.padStyles[0].color}
+                style={pad.padStyles[0]}
+                isNewPad={false}
+                data={pad}
+              />
+            ))}
         </div>
       </div>
     </>
