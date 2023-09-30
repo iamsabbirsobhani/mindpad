@@ -121,7 +121,7 @@ export default function ClientDashboard({
                 data={pad}
               />
             ))
-          ) : (
+          ) : !selectedpadStyle ? (
             <div className="flex flex-col justify-center items-center w-full">
               <h1 className="text-4xl font-bold text-gray-500">
                 No notes found
@@ -138,7 +138,7 @@ export default function ClientDashboard({
                 <span className="font-bold">Plus Button</span> to get started!
               </h1>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </>
