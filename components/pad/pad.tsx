@@ -24,38 +24,120 @@ export default function Pad({
   const dispatch = useAppDispatch();
   const formRef = useRef<any>();
   const [isLoading, setisLoading] = useState<boolean>(false);
-
+  const [isEdit, setisEdit] = useState<boolean>(false);
+  const [hasErrorMsg, sethasErrorMsg] = useState<boolean>(false);
+  const [errorMsg, seterrorMsg] = useState<any>('');
   const handlePadPost = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (e.currentTarget) {
-      setisLoading(true);
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      const postData = {
-        note: data.note,
-        color: style?.color,
-        hover: style?.hover,
-      };
+    try {
+      e.preventDefault();
+      if (e.currentTarget) {
+        setisLoading(true);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        const postData = {
+          note: data.note,
+          color: style?.color,
+          hover: style?.hover,
+        };
 
-      const res = await fetch('/api/newpad', {
-        method: 'POST',
-        body: JSON.stringify(postData),
-      });
+        const res = await fetch('/api/newpad', {
+          method: 'POST',
+          body: JSON.stringify(postData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (res.status === 200) {
-        const pad = await res.json();
-        if (pad && pad.status === 200) {
-          formRef.current.reset();
+        if (res.status === 200) {
+          const pad = await res.json();
+          if (pad && pad.status === 200) {
+            formRef.current.reset();
+            setisLoading(false);
+            dispatch(setSelectedPad(null));
+            window.location.reload();
+          } else {
+            setisLoading(false);
+            sethasErrorMsg(true);
+            seterrorMsg(pad);
+            console.log(pad);
+          }
+        } else {
           setisLoading(false);
-          dispatch(setSelectedPad(null));
-          window.location.reload();
+          sethasErrorMsg(true);
+          seterrorMsg('Something went wrong!');
+          console.log('error');
         }
-      } else {
-        setisLoading(false);
-        console.log('error');
       }
+    } catch (error) {
+      console.log(error);
+      sethasErrorMsg(true);
+      seterrorMsg('Something went wrong!');
+      setisLoading(false);
     }
+  };
+
+  const handleEditPost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('edit');
+    try {
+      setisLoading(true);
+      if (e.currentTarget) {
+        setisLoading(true);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        const padData = Object.fromEntries(formData.entries());
+        console.log(padData);
+        console.log(data.id, data.authorEmail);
+        const postData = {
+          note: padData.note,
+          id: data.id,
+          authorEmail: data.authorEmail,
+        };
+
+        const res = await fetch('/api/pad/update', {
+          method: 'POST',
+          body: JSON.stringify(postData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (res.status === 200) {
+          const pad = await res.json();
+          if (pad && pad.status === 200) {
+            formRef.current.reset();
+            dispatch(setSelectedPad(null));
+            window.location.reload();
+            setisLoading(false);
+            setisEdit(false);
+          } else {
+            setisLoading(false);
+            setisEdit(false);
+            sethasErrorMsg(true);
+            seterrorMsg(pad);
+            console.log(pad);
+          }
+        } else {
+          setisLoading(false);
+          console.log('error');
+          sethasErrorMsg(true);
+          seterrorMsg('Something went wrong!');
+          setisEdit(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      sethasErrorMsg(true);
+      seterrorMsg('Something went wrong!');
+      setisLoading(false);
+      setisEdit(false);
+    }
+  };
+
+  const closeErrorMsg = () => {
+    sethasErrorMsg(false);
+    seterrorMsg('');
   };
 
   return (
@@ -70,7 +152,7 @@ export default function Pad({
           }`
         }
       >
-        {isNewPad ? (
+        {isNewPad || isLoading ? (
           <div
             className={`absolute  left-0 top-0 right-0 bottom-0 backdrop-blur-sm z-30 rounded-2xl flex justify-center items-center w-full h-full ${
               isLoading ? 'visible opacity-100' : 'invisible opacity-0'
@@ -82,87 +164,175 @@ export default function Pad({
           </div>
         ) : null}
 
-        {isNewPad ? (
+        {hasErrorMsg ? (
+          <div
+            className={`absolute  left-0 top-0 right-0 bottom-0 backdrop-blur-sm z-30 rounded-2xl flex justify-center items-center w-full h-full ${
+              hasErrorMsg ? 'visible opacity-100' : 'invisible opacity-0'
+            }}`}
+          >
+            <div className=" absolute left-0 top-0 right-0 bottom-0 backdrop-blur-sm z-30 rounded-2xl flex justify-center items-center">
+              <div className="bg-white rounded-2xl w-48 shadow-lg p-5">
+                <h1 className="text-red-500 text-xl font-bold mb-2">Error!</h1>
+                <h1 className="text-gray-800 text-md font-bold mb-2 break-words">
+                  {errorMsg && errorMsg.error && errorMsg.error.name
+                    ? errorMsg.error.name
+                    : errorMsg}
+                  . Try again.
+                </h1>
+                <button
+                  onClick={closeErrorMsg}
+                  className="bg-gray-800 text-white px-3 py-2 rounded-md"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {isNewPad || isEdit ? (
           <form
-            onSubmit={handlePadPost}
+            onSubmit={isEdit ? handleEditPost : handlePadPost}
             ref={formRef}
             className=" relative h-full"
           >
-            <textarea
-              className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
-              placeholder="This is MindPad note."
-              required
-              name="note"
-            />
+            {!isEdit ? (
+              <textarea
+                className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
+                placeholder="This is MindPad note."
+                required
+                name="note"
+              />
+            ) : (
+              <textarea
+                className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
+                placeholder="This is MindPad note."
+                required
+                name="note"
+                defaultValue={data && data.note ? data.note : ''}
+              />
+            )}
             <div className="flex justify-between items-center">
               <div>
-                <button
-                  className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
-                  type="button"
-                  onClick={() => {
-                    dispatch(setSelectedPad(null));
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
+                {/* newpad cancel button */}
+                {!isEdit ? (
+                  <button
+                    className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
+                    type="button"
+                    onClick={() => {
+                      dispatch(setSelectedPad(null));
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  // edit cancel
+                  <button
+                    className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
+                    type="button"
+                    onClick={() => {
+                      setisEdit(!isEdit);
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
               <div>
-                <button
-                  className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-green-600 transition-all duration-300"
-                  type="submit"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
+                {/* create new pad */}
+                {isEdit ? (
+                  <button
+                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-green-600 transition-all duration-300"
+                    type="submit"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12.75l6 6 9-13.5"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  // edit pad
+                  <button
+                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-green-600 transition-all duration-300"
+                    type="submit"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           </form>
         ) : (
           <div className=" h-full">
             {/* data showing part */}
+
             <div className=" h-full">
-              <textarea
-                className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
-                value={
-                  data && data.note
+              <div className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700">
+                <h1>
+                  {data && data.note
                     ? data.note
-                    : 'This is MindPad note. You can edit this note by clicking edit button.'
-                }
-                name="editnote"
-                id="editnote"
-              ></textarea>
+                    : 'This is MindPad note. You can edit this note by clicking edit button.'}
+                </h1>
+              </div>
             </div>
+
             {/* UD part */}
-            <div className="flex justify-between items-center relative bottom-9">
+            <form className="flex justify-between items-center relative bottom-9">
               <button
                 className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
                 type="button"
-                onClick={() => {}}
+                onClick={() => {
+                  setisEdit(!isEdit);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -180,6 +350,7 @@ export default function Pad({
                 </svg>
               </button>
 
+              {/* delete button */}
               <button
                 className=" focus:outline-none bg-rose-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-rose-400 transition-all duration-300"
                 type="button"
@@ -200,7 +371,7 @@ export default function Pad({
                   />
                 </svg>
               </button>
-            </div>
+            </form>
           </div>
         )}
       </div>
