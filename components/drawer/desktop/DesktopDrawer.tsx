@@ -87,7 +87,6 @@ export default function DesktopDrawer() {
               <button
                 className={` w-5 h-5 transition-all duration-300 rounded-full  m-auto mt-4 shadow-md cursor-pointer hover:${item.hover} ${item.color}`}
                 onClick={() => {
-                  console.log(item.id);
                   dispatch(setSelectedPad(item));
                 }}
               ></button>
