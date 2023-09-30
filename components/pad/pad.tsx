@@ -359,10 +359,10 @@ export default function Pad({
           </form>
         ) : (
           <div className=" h-full">
-            {/* data showing part */}
+            {/* data showing part / output */}
 
             <div className=" h-full">
-              <div className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700">
+              <div className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700 overflow-y-auto">
                 <h1>
                   {data && data.note
                     ? data.note

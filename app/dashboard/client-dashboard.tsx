@@ -115,8 +115,18 @@ export default function ClientDashboard({
             pads.pad.map((pad: any) => (
               <Pad
                 key={pad.id}
-                color={pad.padStyles[0].color}
-                style={pad.padStyles[0]}
+                color={
+                  pad &&
+                  pad.padStyles &&
+                  pad.padStyles.length > 0 &&
+                  pad.padStyles[0].color
+                }
+                style={
+                  pad &&
+                  pad.padStyles &&
+                  pad.padStyles.length > 0 &&
+                  pad.padStyles[0]
+                }
                 isNewPad={false}
                 data={pad}
               />
