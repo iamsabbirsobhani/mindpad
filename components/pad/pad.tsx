@@ -1,6 +1,6 @@
 import { setSelectedPad } from '@/features/ui/uiSlice';
 import { useAppDispatch } from '@/store/hooks';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 export default function Pad({
   color,
   hover,
@@ -23,14 +23,16 @@ export default function Pad({
 }) {
   const dispatch = useAppDispatch();
   const formRef = useRef<any>();
-
+  const [isLoading, setisLoading] = useState<boolean>(false);
+  console.log(isLoading);
   const handlePadPost = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(isLoading);
     e.preventDefault();
     if (e.currentTarget) {
+      setisLoading(true);
       const form = e.currentTarget;
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
-
       const postData = {
         note: data.note,
         color: style?.color,
@@ -46,9 +48,13 @@ export default function Pad({
         const pad = await res.json();
         if (pad && pad.status === 200) {
           formRef.current.reset();
+          setisLoading(false);
           dispatch(setSelectedPad(null));
           window.location.reload();
         }
+      } else {
+        setisLoading(false);
+        console.log('error');
       }
     }
   };
@@ -66,7 +72,23 @@ export default function Pad({
         }
       >
         {isNewPad ? (
-          <form onSubmit={handlePadPost} ref={formRef} className=" h-full">
+          <div
+            className={`absolute  left-0 top-0 right-0 bottom-0 backdrop-blur-sm z-30 rounded-2xl flex justify-center items-center w-full h-full ${
+              isLoading ? 'visible opacity-100' : 'invisible opacity-0'
+            }}`}
+          >
+            <h1 className=" animate-pulse absolute left-0 top-0 right-0 bottom-0 backdrop-blur-sm z-30 rounded-2xl flex justify-center items-center">
+              Saving...
+            </h1>
+          </div>
+        ) : null}
+
+        {isNewPad ? (
+          <form
+            onSubmit={handlePadPost}
+            ref={formRef}
+            className=" relative h-full"
+          >
             <textarea
               className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
               placeholder="This is MindPad note."
