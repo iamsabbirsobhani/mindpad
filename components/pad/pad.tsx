@@ -376,7 +376,7 @@ export default function Pad({
             {/* data showing part / output */}
 
             <div className=" h-full">
-              <div className="w-full h-[65%] bg-transparent outline-none resize-none placeholder:text-gray-700 overflow-y-auto">
+              <div className="w-full h-[65%] bg-transparent outline-none resize-none placeholder:text-gray-700 overflow-y-auto overflow-x-hidden break-words">
                 <h1>
                   {data && data.note
                     ? data.note
