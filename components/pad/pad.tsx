@@ -1,5 +1,6 @@
 import { setSelectedPad } from '@/features/ui/uiSlice';
 import { useAppDispatch } from '@/store/hooks';
+import { format } from 'date-fns';
 import { useRef, useState } from 'react';
 export default function Pad({
   color,
@@ -202,11 +203,12 @@ export default function Pad({
         <div>
           {isNewPad ? (
             <h1 className=" text-xs text-gray-500">
-              Creating on: {new Date().toLocaleString()}
+              Creating on: {format(new Date(), 'PPP')}
             </h1>
           ) : (
             <h1 className=" text-xs text-gray-500">
-              {new Date(data.updatedAt).toLocaleString()}
+              {/* {new Date(data.updatedAt).toLocaleString()} */}
+              {format(new Date(data.updatedAt), 'PPPp')}
             </h1>
           )}
         </div>
