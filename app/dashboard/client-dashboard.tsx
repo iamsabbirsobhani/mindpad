@@ -150,6 +150,15 @@ export default function ClientDashboard({
           <h1 className=" text-5xl font-extrabold text-gray-800">Notes</h1>
         </div>
 
+        {/* search loading */}
+        {isSearchLoading ? (
+          <div className="flex flex-col justify-center items-center w-full">
+            <h1 className="text-2xl mt-3 mb-3 text-gray-800 animate-pulse">
+              Searching...
+            </h1>
+          </div>
+        ) : null}
+
         {/* new pad */}
         <div className="">
           <Pad
@@ -182,14 +191,6 @@ export default function ClientDashboard({
                 />
               ))
             : null}
-
-          {isSearchLoading ? (
-            <div className="flex flex-col justify-center items-center w-full">
-              <h1 className="text-2xl mt-3 mb-3 text-gray-800 animate-pulse">
-                Searching...
-              </h1>
-            </div>
-          ) : null}
 
           {pads &&
           pads.pad &&
