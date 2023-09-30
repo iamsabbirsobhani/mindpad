@@ -21,7 +21,6 @@ export async function POST(request: Request) {
       user &&
       user.email &&
       user.given_name &&
-      user.picture &&
       body &&
       body.note &&
       body.color &&
@@ -32,7 +31,7 @@ export async function POST(request: Request) {
         data: {
           authorEmail: user.email,
           authorName: user.given_name,
-          authorProfilePhoto: user.picture,
+          authorProfilePhoto: user.picture || '',
           note: body.note,
           isImportant: false,
           padStyles: {
@@ -48,6 +47,12 @@ export async function POST(request: Request) {
         success: true,
         pad,
         status: 200,
+      });
+    } else {
+      return NextResponse.json({
+        success: false,
+        message: 'You must provide all required fields',
+        status: 400,
       });
     }
   } catch (error) {
