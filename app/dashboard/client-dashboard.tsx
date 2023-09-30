@@ -57,11 +57,10 @@ export default function ClientDashboard({
           <div className="mr-5 relative">
             <div className="relative">
               <button
-                className="ml-2 border rounded-full w-10 h-10 text-gray-50 font-bold mr-5"
+                className="ml-2 border rounded-full w-10 h-10 text-gray-700 font-bold mr-5"
                 ref={modalRef}
                 onClick={() => {
                   setisprofilemenuopen(!isprofilemenuopen);
-                  console.log('clicked profile');
                 }}
               >
                 {/* profile image */}
@@ -112,9 +111,7 @@ export default function ClientDashboard({
 
         {/* notes */}
         <div className="flex flex-wrap">
-          {pads &&
-            pads.pad &&
-            pads.pad.length > 0 &&
+          {pads && pads.pad && pads.pad.length > 0 ? (
             pads.pad.map((pad: any) => (
               <Pad
                 key={pad.id}
@@ -123,7 +120,25 @@ export default function ClientDashboard({
                 isNewPad={false}
                 data={pad}
               />
-            ))}
+            ))
+          ) : (
+            <div className="flex flex-col justify-center items-center w-full">
+              <h1 className="text-4xl font-bold text-gray-500">
+                No notes found
+              </h1>
+              {/* create one */}
+              <h1 className="text-md font-xl text-gray-800 mt-5">
+                Hi <span className="font-bold"> {user.given_name}</span>! It
+                seems like you&apos;re ready to start organizing your thoughts.
+                You haven&apos;t created any{' '}
+                <span className="font-bold">MindPads</span> yet. Why not get
+                started now and create your first{' '}
+                <span className="font-bold">MindPads</span>? It&apos;s a simple
+                way to keep your ideas in one place. Just click on the{' '}
+                <span className="font-bold">Plus Button</span> to get started!
+              </h1>
+            </div>
+          )}
         </div>
       </div>
     </>
