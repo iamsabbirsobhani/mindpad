@@ -125,11 +125,10 @@ export default function Pad({
           <>
             {/* data showing part */}
             <div>
-              <h1>Has data</h1>
               <p>{data.note}</p>
             </div>
             {/* UD part */}
-            <div className="flex justify-between items-center relative top-24">
+            <div className="flex justify-between items-center relative top-[120px]">
               <button
                 className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
                 type="button"
