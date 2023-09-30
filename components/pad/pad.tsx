@@ -25,6 +25,7 @@ export default function Pad({
   const formRef = useRef<any>();
 
   const handlePadPost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (e.currentTarget) {
       const form = e.currentTarget;
       const formData = new FormData(form);
@@ -46,6 +47,7 @@ export default function Pad({
         if (pad && pad.status === 200) {
           formRef.current.reset();
           dispatch(setSelectedPad(null));
+          window.location.reload();
         }
       }
     }
