@@ -190,14 +190,26 @@ export default function Pad({
     <>
       <div
         className={
-          ` ${color}  rounded-2xl p-3 transition-all duration-700 shadow-md relative m-3 w-52 ` +
+          ` ${color}  rounded-2xl p-3 transition-all duration-700 shadow-md relative m-3 w-56 ` +
           `${
             style
-              ? ' right-0 h-52  visible opacity-100  ease-[cubic-bezier(.05,.31,.33,1.33)]'
+              ? ' right-0 h-56  visible opacity-100  ease-[cubic-bezier(.05,.31,.33,1.33)]'
               : ' right-full h-0  invisible opacity-0 ease-out-[cubic-bezier(.05,.31,.33,1.33)] '
           }`
         }
       >
+        {/* date */}
+        <div>
+          {isNewPad ? (
+            <h1 className=" text-xs text-gray-500">
+              Creating on: {new Date().toLocaleString()}
+            </h1>
+          ) : (
+            <h1 className=" text-xs text-gray-500">
+              {new Date(data.updatedAt).toLocaleString()}
+            </h1>
+          )}
+        </div>
         {isNewPad || isLoading ? (
           <div
             className={`absolute  left-0 top-0 right-0 bottom-0 backdrop-blur-sm z-30 rounded-2xl flex justify-center items-center w-full h-full ${
@@ -244,14 +256,14 @@ export default function Pad({
           >
             {!isEdit ? (
               <textarea
-                className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
+                className="w-full h-[65%] bg-transparent outline-none resize-none placeholder:text-gray-700"
                 placeholder="This is MindPad note."
                 required
                 name="note"
               />
             ) : (
               <textarea
-                className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
+                className="w-full h-[65%] bg-transparent outline-none resize-none placeholder:text-gray-700"
                 placeholder="This is MindPad note."
                 required
                 name="note"
@@ -263,7 +275,7 @@ export default function Pad({
                 {/* newpad cancel button */}
                 {!isEdit ? (
                   <button
-                    className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
+                    className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-0 hover:bg-gray-600 transition-all duration-300"
                     type="button"
                     onClick={() => {
                       dispatch(setSelectedPad(null));
@@ -287,7 +299,7 @@ export default function Pad({
                 ) : (
                   // edit cancel
                   <button
-                    className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
+                    className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-0 hover:bg-gray-600 transition-all duration-300"
                     type="button"
                     onClick={() => {
                       setisEdit(!isEdit);
@@ -314,7 +326,7 @@ export default function Pad({
                 {/* create new pad */}
                 {isEdit ? (
                   <button
-                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-green-600 transition-all duration-300"
+                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-0 hover:bg-green-600 transition-all duration-300"
                     type="submit"
                   >
                     <svg
@@ -335,7 +347,7 @@ export default function Pad({
                 ) : (
                   // edit pad
                   <button
-                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-green-600 transition-all duration-300"
+                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-0 hover:bg-green-600 transition-all duration-300"
                     type="submit"
                   >
                     <svg
@@ -362,7 +374,7 @@ export default function Pad({
             {/* data showing part / output */}
 
             <div className=" h-full">
-              <div className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700 overflow-y-auto">
+              <div className="w-full h-[65%] bg-transparent outline-none resize-none placeholder:text-gray-700 overflow-y-auto">
                 <h1>
                   {data && data.note
                     ? data.note
@@ -372,7 +384,7 @@ export default function Pad({
             </div>
 
             {/* UD part */}
-            <form className="flex justify-between items-center relative bottom-9">
+            <form className="flex justify-between items-center relative bottom-[59px]">
               <button
                 className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
                 type="button"
