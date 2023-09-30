@@ -24,9 +24,8 @@ export default function Pad({
   const dispatch = useAppDispatch();
   const formRef = useRef<any>();
   const [isLoading, setisLoading] = useState<boolean>(false);
-  console.log(isLoading);
+
   const handlePadPost = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(isLoading);
     e.preventDefault();
     if (e.currentTarget) {
       setisLoading(true);
@@ -144,13 +143,22 @@ export default function Pad({
             </div>
           </form>
         ) : (
-          <>
+          <div className=" h-full">
             {/* data showing part */}
-            <div>
-              <p>{data.note}</p>
+            <div className=" h-full">
+              <textarea
+                className="w-full h-[75%] bg-transparent outline-none resize-none placeholder:text-gray-700"
+                value={
+                  data && data.note
+                    ? data.note
+                    : 'This is MindPad note. You can edit this note by clicking edit button.'
+                }
+                name="editnote"
+                id="editnote"
+              ></textarea>
             </div>
             {/* UD part */}
-            <div className="flex justify-between items-center relative top-[120px]">
+            <div className="flex justify-between items-center relative bottom-9">
               <button
                 className=" focus:outline-none bg-gray-800 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-1 hover:bg-gray-600 transition-all duration-300"
                 type="button"
@@ -193,7 +201,7 @@ export default function Pad({
                 </svg>
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </>
