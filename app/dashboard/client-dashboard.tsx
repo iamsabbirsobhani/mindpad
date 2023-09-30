@@ -3,9 +3,10 @@ import Pad from '@/components/pad/pad';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import _ from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-
+// import debounce from 'lodash.debounce';
 export default function ClientDashboard({
   children,
   user,
@@ -16,6 +17,9 @@ export default function ClientDashboard({
   pads: any;
 }) {
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
+  const [isSearchLoading, setisSearchLoading] = useState<boolean>(false);
+  const [searchPads, setsearchPads] = useState<any>([]);
+
   const modalRef = useRef(null);
   const selectedpadStyle = useAppSelector(
     (state: RootState) => state.ui.selectedPad,
@@ -24,6 +28,49 @@ export default function ClientDashboard({
   useOutsideClick(() => {
     setisprofilemenuopen(false);
   }, modalRef);
+
+  const search = _.debounce(
+    async (e) => {
+      if (e.target.value === '') {
+        setsearchPads([]);
+        return;
+      }
+      try {
+        setisSearchLoading(true);
+        const delData = {
+          searchText: e.target.value,
+        };
+        const res = await fetch('/api/pad/search', {
+          method: 'POST',
+          body: JSON.stringify(delData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (res.status === 200) {
+          const pad = await res.json();
+          if (pad && pad.status === 200) {
+            setsearchPads(pad.pads);
+            setisSearchLoading(false);
+          } else {
+            setisSearchLoading(false);
+          }
+        } else {
+          setisSearchLoading(false);
+          console.log('error');
+        }
+      } catch (error) {
+        console.log(error);
+        setisSearchLoading(false);
+      }
+    },
+    600,
+    { trailing: true },
+  );
+  const handleSearch = (e: any) => {
+    search(e);
+  };
 
   return (
     <>
@@ -35,6 +82,9 @@ export default function ClientDashboard({
               type="search"
               className="focus:outline-none ml-7 w-40 sm:w-28 md:w-32 lg:w-32 xl:w-96 2xl:w-96"
               placeholder="Search"
+              onChange={(e) => {
+                handleSearch(e);
+              }}
             />
             <div className="absolute flex justify-center items-center top-0  bottom-0">
               <svg
@@ -111,7 +161,40 @@ export default function ClientDashboard({
 
         {/* notes */}
         <div className="flex flex-wrap">
-          {pads && pads.pad && pads.pad.length > 0 ? (
+          {searchPads && searchPads.length > 0
+            ? searchPads.map((pad: any) => (
+                <Pad
+                  key={pad.id}
+                  color={
+                    pad &&
+                    pad.padStyles &&
+                    pad.padStyles.length > 0 &&
+                    pad.padStyles[0].color
+                  }
+                  style={
+                    pad &&
+                    pad.padStyles &&
+                    pad.padStyles.length > 0 &&
+                    pad.padStyles[0]
+                  }
+                  isNewPad={false}
+                  data={pad}
+                />
+              ))
+            : null}
+
+          {isSearchLoading ? (
+            <div className="flex flex-col justify-center items-center w-full">
+              <h1 className="text-2xl mt-3 mb-3 text-gray-800 animate-pulse">
+                Searching...
+              </h1>
+            </div>
+          ) : null}
+
+          {pads &&
+          pads.pad &&
+          pads.pad.length > 0 &&
+          searchPads.length === 0 ? (
             pads.pad.map((pad: any) => (
               <Pad
                 key={pad.id}
@@ -131,7 +214,7 @@ export default function ClientDashboard({
                 data={pad}
               />
             ))
-          ) : !selectedpadStyle ? (
+          ) : !selectedpadStyle && searchPads && searchPads.length === 0 ? (
             <div className="flex flex-col justify-center items-center w-full">
               <h1 className="text-4xl font-bold text-gray-500">
                 No notes found
