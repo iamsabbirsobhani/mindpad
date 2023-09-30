@@ -25,8 +25,6 @@ export default function ClientDashboard({
     setisprofilemenuopen(false);
   }, modalRef);
 
-  console.log(pads);
-
   return (
     <>
       <div className="ml-24 mt-10">
