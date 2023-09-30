@@ -37,8 +37,6 @@ export default function Pad({
         hover: style?.hover,
       };
 
-      console.log(postData);
-
       const res = await fetch('/api/newpad', {
         method: 'POST',
         body: JSON.stringify(postData),
@@ -50,7 +48,6 @@ export default function Pad({
           formRef.current.reset();
           dispatch(setSelectedPad(null));
         }
-        console.log({ pad, msg: 'pad created' });
       }
     }
   };
