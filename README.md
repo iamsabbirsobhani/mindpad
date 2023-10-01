@@ -32,3 +32,4 @@ Experience the future of note-taking with MindPad. Try it today and transform th
 - [Prisma](https://www.prisma.io/) - Next-generation Node.js and TypeScript ORM
 - [Supabase](https://supabase.io/) - Open source Firebase alternative
 - [PostgreSQL](https://www.postgresql.org/) - Database
+- [Kinde](https://kinde.com/) - Simple, powerful authentication
