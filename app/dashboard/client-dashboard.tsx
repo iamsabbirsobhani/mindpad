@@ -54,7 +54,6 @@ export default function ClientDashboard({
         if (res.status === 200) {
           const pad = await res.json();
           if (pad && pad.status === 200) {
-            console.log(pad.pads.length);
             if (pad && pad.pads && pad.pads.length === 0) {
               setsearchPads([]);
               setisSearchLoading(false);
@@ -66,7 +65,6 @@ export default function ClientDashboard({
             setnotFound(false);
             setisSearchLoading(false);
           } else {
-            console.log(pad);
             setsearchPads([]);
             setsearchMsg(pad);
             setnotFound(true);
