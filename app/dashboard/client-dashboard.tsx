@@ -51,6 +51,7 @@ export default function ClientDashboard({
         if (res.status === 200) {
           const pad = await res.json();
           if (pad && pad.status === 200) {
+            console.log(pad.pads.length);
             setsearchPads(pad.pads);
             setisSearchLoading(false);
           } else {
@@ -168,7 +169,7 @@ export default function ClientDashboard({
           />
         </div>
 
-        {/* notes */}
+        {/* search results of pad */}
         <div className="flex flex-wrap">
           {searchPads && searchPads.length > 0
             ? searchPads.map((pad: any) => (
@@ -192,6 +193,7 @@ export default function ClientDashboard({
               ))
             : null}
 
+          {/* all pads */}
           {pads &&
           pads.pad &&
           pads.pad.length > 0 &&

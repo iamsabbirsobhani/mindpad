@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         where: {
           authorEmail: user.email,
           note: {
-            search: body.searchText,
+            contains: body.searchText,
           },
         },
         include: {
