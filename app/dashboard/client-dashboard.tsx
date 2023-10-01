@@ -3,7 +3,7 @@ import Pad from '@/components/pad/pad';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 // import debounce from 'lodash.debounce';
@@ -19,6 +19,8 @@ export default function ClientDashboard({
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
   const [isSearchLoading, setisSearchLoading] = useState<boolean>(false);
   const [searchPads, setsearchPads] = useState<any>([]);
+  const [searchMsg, setsearchMsg] = useState<any>('');
+  const [isnotFound, setnotFound] = useState<any>(false);
 
   const modalRef = useRef(null);
   const selectedpadStyle = useAppSelector(
@@ -33,6 +35,7 @@ export default function ClientDashboard({
     async (e) => {
       if (e.target.value === '') {
         setsearchPads([]);
+        setnotFound(false);
         return;
       }
       try {
@@ -52,17 +55,35 @@ export default function ClientDashboard({
           const pad = await res.json();
           if (pad && pad.status === 200) {
             console.log(pad.pads.length);
+            if (pad && pad.pads && pad.pads.length === 0) {
+              setsearchPads([]);
+              setisSearchLoading(false);
+              setnotFound(true);
+              setsearchMsg('No notes found');
+              return;
+            }
             setsearchPads(pad.pads);
+            setnotFound(false);
             setisSearchLoading(false);
           } else {
+            console.log(pad);
+            setsearchPads([]);
+            setsearchMsg(pad);
+            setnotFound(true);
             setisSearchLoading(false);
           }
         } else {
           setisSearchLoading(false);
+          setsearchPads([]);
+          setsearchMsg('Something went wrong');
+          setnotFound(true);
           console.log('error');
         }
       } catch (error) {
         console.log(error);
+        setsearchPads([]);
+        setsearchMsg('Something went wrong');
+        setnotFound(true);
         setisSearchLoading(false);
       }
     },
@@ -150,6 +171,18 @@ export default function ClientDashboard({
         <div className="mt-5 mb-2">
           <h1 className=" text-5xl font-extrabold text-gray-800">Notes</h1>
         </div>
+
+        {/* search not found */}
+        {isnotFound && !isSearchLoading ? (
+          <div className="border max-w-lg text-center rounded-lg p-2 m-auto flex flex-col justify-center items-center w-full break-words break-all">
+            <h1 className="text-2xl mt-3 mb-3 text-gray-800">
+              {searchMsg && searchMsg.error && searchMsg.error.name
+                ? searchMsg.error.name
+                : searchMsg}
+              . Try again.
+            </h1>
+          </div>
+        ) : null}
 
         {/* search loading */}
         {isSearchLoading ? (
