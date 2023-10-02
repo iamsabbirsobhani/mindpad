@@ -1,26 +1,30 @@
 'use client';
 import Pad from '@/components/pad/pad';
+import { setSpaceUsed } from '@/features/ui/uiSlice';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import _, { set } from 'lodash';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // import debounce from 'lodash.debounce';
 export default function ClientDashboard({
   children,
   user,
   pads,
+  space,
 }: {
   children: React.ReactNode;
   user: any;
   pads: any;
+  space: any;
 }) {
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
   const [isSearchLoading, setisSearchLoading] = useState<boolean>(false);
   const [searchPads, setsearchPads] = useState<any>([]);
   const [searchMsg, setsearchMsg] = useState<any>('');
   const [isnotFound, setnotFound] = useState<any>(false);
+  const dispatch = useAppDispatch();
 
   const modalRef = useRef(null);
   const selectedpadStyle = useAppSelector(
@@ -91,6 +95,10 @@ export default function ClientDashboard({
   const handleSearch = (e: any) => {
     search(e);
   };
+
+  useEffect(() => {
+    dispatch(setSpaceUsed(space));
+  }, [space, dispatch]);
 
   return (
     <>

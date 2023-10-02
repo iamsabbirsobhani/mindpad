@@ -18,6 +18,20 @@ async function getData(user: any) {
   return data;
 }
 
+async function getSpace(user: any) {
+  const res = await fetch(API + '/api/pad/database/space', {
+    method: 'POST',
+    body: JSON.stringify(user),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  const data = await res.json();
+  return data;
+}
+
 export default async function Note() {
   const { getUser, isAuthenticated } = getKindeServerSession();
   const user = await getUser();
@@ -25,10 +39,11 @@ export default async function Note() {
     return <div>Not authenticated</div>;
   }
   const data = await getData(user);
+  const space = await getSpace(user);
   return (
     <>
       <Drawer />
-      <ClientDashboard user={user} pads={data}>
+      <ClientDashboard user={user} pads={data} space={space}>
         <ProfileMenu />
       </ClientDashboard>
     </>

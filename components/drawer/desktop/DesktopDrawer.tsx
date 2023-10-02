@@ -1,11 +1,12 @@
 'use client';
 import { setSelectedPad } from '@/features/ui/uiSlice';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import Image from 'next/image';
 import { useState } from 'react';
 
 export default function DesktopDrawer() {
   const [isopen, setisopen] = useState<boolean>(false);
+  const space = useAppSelector((state) => state.ui.spaceUsed);
   const dispatch = useAppDispatch();
 
   const items = [
@@ -93,6 +94,22 @@ export default function DesktopDrawer() {
             </div>
           ))}
       </div>
+
+      {space && space.space ? (
+        <div>
+          {/* total spaced used kb */}
+          <div className="mt-3">
+            <div className="text-center">
+              <span className="text-xs text-gray-500">Total Space Used</span>
+            </div>
+            <div className="text-center">
+              <span className="text-xs text-gray-500">
+                {space.space}kb <br /> of 1000kb
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

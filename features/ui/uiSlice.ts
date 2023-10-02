@@ -7,11 +7,13 @@ interface UiState {
     color: string;
     hover: string;
   } | null;
+  spaceUsed: any;
 }
 
 const initialState: UiState = {
   count: 80,
   selectedPad: null,
+  spaceUsed: 0,
 };
 
 export const uiSlice = createSlice({
@@ -38,9 +40,14 @@ export const uiSlice = createSlice({
     ) => {
       state.selectedPad = action.payload;
     },
+
+    setSpaceUsed: (state: { spaceUsed: any }, action: PayloadAction<any>) => {
+      state.spaceUsed = action.payload;
+    },
   },
 });
 
-export const { countUp, setCount, setSelectedPad } = uiSlice.actions;
+export const { countUp, setCount, setSelectedPad, setSpaceUsed } =
+  uiSlice.actions;
 
 export default uiSlice.reducer;
