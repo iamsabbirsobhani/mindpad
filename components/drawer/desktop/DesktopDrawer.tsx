@@ -95,12 +95,12 @@ export default function DesktopDrawer() {
           ))}
       </div>
 
+      {/* total spaced used database in kb(note column) */}
       {space && space.space ? (
-        <div>
-          {/* total spaced used kb */}
+        <div className="absolute bottom-1">
           <div className="mt-3">
             <div className="text-center">
-              <span className="text-xs text-gray-500">Total Space Used</span>
+              <span className="text-xs text-gray-500">Databse Used:</span>
             </div>
             <div className="text-center">
               <span className="text-xs text-gray-500">
