@@ -100,7 +100,7 @@ export default function DesktopDrawer() {
         <div className="absolute bottom-1">
           <div className="mt-3">
             <div className="text-center">
-              <span className="text-xs text-gray-500">Databse Used:</span>
+              <span className="text-xs text-gray-500">Database:</span>
             </div>
             <div className="text-center">
               <span className="text-xs text-gray-500">
