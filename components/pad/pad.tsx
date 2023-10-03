@@ -2,12 +2,17 @@ import { setSelectedPad } from '@/features/ui/uiSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { format } from 'date-fns';
 import { useRef, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { set } from 'lodash';
+
 export default function Pad({
   color,
   hover,
   style,
   isNewPad,
   data,
+  user,
 }: {
   color: string | undefined;
   hover?: string | undefined;
@@ -21,6 +26,7 @@ export default function Pad({
   } | null;
   isNewPad: boolean;
   data?: any;
+  user?: any;
 }) {
   const dispatch = useAppDispatch();
   const formRef = useRef<any>();
@@ -28,6 +34,7 @@ export default function Pad({
   const [isEdit, setisEdit] = useState<boolean>(false);
   const [hasErrorMsg, sethasErrorMsg] = useState<boolean>(false);
   const [errorMsg, seterrorMsg] = useState<any>('');
+  const [uploadedFilePath, setuploadedFilePath] = useState<any>('');
   const handlePadPost = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -61,7 +68,6 @@ export default function Pad({
             setisLoading(false);
             sethasErrorMsg(true);
             seterrorMsg(pad);
-            console.log(pad);
           }
         } else {
           setisLoading(false);
@@ -115,7 +121,6 @@ export default function Pad({
             setisEdit(false);
             sethasErrorMsg(true);
             seterrorMsg(pad);
-            console.log(pad);
           }
         } else {
           setisLoading(false);
@@ -169,7 +174,6 @@ export default function Pad({
           setisEdit(false);
           sethasErrorMsg(true);
           seterrorMsg(pad);
-          console.log(pad);
         }
       } else {
         setisLoading(false);
@@ -184,6 +188,66 @@ export default function Pad({
       seterrorMsg('Something went wrong!');
       setisLoading(false);
       setisEdit(false);
+    }
+  };
+
+  const handleUploadFile = async (e: any) => {
+    setisLoading(true);
+    if (!user) {
+      return;
+    }
+    // Upload file using standard upload
+    const supabaseStorageURL = `https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/`;
+    // Create Supabase client
+    const supabase = createClient(
+      supabaseStorageURL,
+      `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+    );
+
+    const { data, error } = await supabase.storage
+      .from(process.env.NEXT_PUBLIC_BUCKET_NAME || '')
+      .upload(`files/${user.id}/${e.target.files[0].name}`, e.target.files[0], {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: 'image/png',
+      });
+
+    if (error) {
+      // Handle error
+      console.log(error);
+      setisLoading(false);
+      setuploadedFilePath('');
+    } else {
+      const pathData = `https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/${process.env.NEXT_PUBLIC_BUCKET_NAME}/${data.path}`;
+
+      setuploadedFilePath(pathData);
+
+      const fileInfo = {
+        fileName: e.target.files[0].name,
+        fileType: e.target.files[0].type,
+        filesize: e.target.files[0].size,
+        url: pathData,
+      };
+
+      const res = await fetch('/api/upload/file', {
+        method: 'POST',
+        body: JSON.stringify(fileInfo),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.status === 200) {
+        const pad = await res.json();
+        if (pad && pad.status === 200) {
+          setisLoading(false);
+        } else {
+          setisLoading(false);
+        }
+      } else {
+        setisLoading(false);
+        console.log('error');
+      }
     }
   };
 
@@ -250,6 +314,7 @@ export default function Pad({
           </div>
         ) : null}
 
+        {/* New pad */}
         {isNewPad || isEdit ? (
           <form
             onSubmit={isEdit ? handleEditPost : handlePadPost}
@@ -262,6 +327,7 @@ export default function Pad({
                 placeholder="This is MindPad note."
                 required
                 name="note"
+                defaultValue={uploadedFilePath ? uploadedFilePath : ''}
               />
             ) : (
               <textarea
@@ -348,25 +414,53 @@ export default function Pad({
                   </button>
                 ) : (
                   // edit pad
-                  <button
-                    className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-0 hover:bg-green-600 transition-all duration-300"
-                    type="submit"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
+                  <div className="flex flex-row-reverse justify-between items-center">
+                    <button
+                      className=" focus:outline-none bg-green-500 rounded-full w-10 h-10 flex justify-center items-center text-white relative bottom-0 hover:bg-green-600 transition-all duration-300"
+                      type="submit"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 12.75l6 6 9-13.5"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* file upload */}
+                    <div className="bg-white rounded-full h-10 w-10 flex justify-center items-center mr-3 relative cursor-pointer">
+                      <input
+                        type="file"
+                        name=""
+                        id=""
+                        className="  absolute w-full h-full top-0 bottom-0 left-0 right-0 m-auto flex justify-center items-center rounded-full overflow-hidden  cursor-pointer opacity-0"
+                        onChange={handleUploadFile}
                       />
-                    </svg>
-                  </button>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6 cursor-pointer"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

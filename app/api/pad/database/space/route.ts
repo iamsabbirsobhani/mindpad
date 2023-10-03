@@ -27,6 +27,8 @@ export async function POST(request: Request) {
       FROM "Pad"
       WHERE "authorEmail" = ${body.email}
     `;
+
+      await prisma.$disconnect();
       console.log({ totalDataUsageQuery });
       const totalBytesUsed = totalDataUsageQuery[0].total_bytes_used;
       const totalMegabytesUsed = Number(totalBytesUsed) / 1000000;

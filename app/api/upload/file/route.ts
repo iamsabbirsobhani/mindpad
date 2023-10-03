@@ -17,17 +17,29 @@ export async function POST(request: Request) {
       });
     }
 
-    if (user && user.email && body && body.searchText) {
+    console.log(body);
+
+    if (
+      user &&
+      user.email &&
+      user.id &&
+      user.given_name &&
+      body &&
+      body.fileName &&
+      body.url &&
+      body.filesize &&
+      body.fileType
+    ) {
       const prisma = new PrismaClient();
-      const pads = await prisma.pad.findMany({
-        where: {
+      const pad = await prisma.file.create({
+        data: {
+          authorId: user.id,
           authorEmail: user.email,
-          note: {
-            contains: body.searchText,
-          },
-        },
-        include: {
-          padStyles: true,
+          authorName: user.given_name,
+          fileName: body.fileName,
+          url: body.url,
+          filesize: body.filesize,
+          fileType: body.fileType,
         },
       });
 
@@ -35,7 +47,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json({
         success: true,
-        pads,
+        pad,
         status: 200,
       });
     } else {

@@ -29,5 +29,18 @@ model PadStyle {
     updatedAt DateTime @updatedAt
 }
 
+model file {
+    id          Int      @id @default(autoincrement())
+    authorId    String
+    authorEmail String
+    authorName  String
+    fileName    String
+    url         String
+    fileType    String?
+    filesize    Int?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
 // npx prisma generate
 // npx prisma migrate dev --name init

@@ -43,6 +43,7 @@ export async function POST(request: Request) {
         },
       });
 
+      await prisma.$disconnect();
       return NextResponse.json({
         success: true,
         pad,

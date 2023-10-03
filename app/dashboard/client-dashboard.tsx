@@ -205,6 +205,7 @@ export default function ClientDashboard({
             color={selectedpadStyle?.color}
             style={selectedpadStyle}
             isNewPad={true}
+            user={user}
           />
         </div>
 

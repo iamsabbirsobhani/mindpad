@@ -36,6 +36,8 @@ export async function POST(request: Request) {
 
       const transaction = await prisma.$transaction([padStyles, pad]);
 
+      await prisma.$disconnect();
+
       return NextResponse.json({
         success: true,
         pad: transaction,
