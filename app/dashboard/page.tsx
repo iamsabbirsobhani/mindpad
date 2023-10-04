@@ -31,6 +31,19 @@ async function getSpace(user: any) {
   const data = await res.json();
   return data;
 }
+async function getStorageSpace(user: any) {
+  const res = await fetch(API + '/api/file/space', {
+    method: 'POST',
+    body: JSON.stringify(user),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  const data = await res.json();
+  return data;
+}
 
 export default async function Note() {
   const { getUser, isAuthenticated } = getKindeServerSession();
@@ -40,10 +53,17 @@ export default async function Note() {
   }
   const data = await getData(user);
   const space = await getSpace(user);
+  const fileSpace = await getStorageSpace(user);
+
   return (
     <>
-      <Drawer />
-      <ClientDashboard user={user} pads={data} space={space}>
+      <Drawer fileSpace={fileSpace} />
+      <ClientDashboard
+        user={user}
+        pads={data}
+        space={space}
+        fileSpace={fileSpace}
+      >
         <ProfileMenu />
       </ClientDashboard>
     </>

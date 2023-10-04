@@ -6,7 +6,7 @@ import prisma from '../../lib/prisma';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log({ body: body.id });
+
     if (!body) {
       return NextResponse.json({
         success: false,
@@ -27,8 +27,6 @@ export async function POST(request: Request) {
   FROM "files"
   WHERE "authorEmail" = ${body.email}
 `;
-
-      console.log({ space: totalFileSizeQuery });
       const totalBytesUsed = totalFileSizeQuery[0].total_file_size || 0;
       const totalMegabytesUsed = Number(totalBytesUsed) / 1000000;
       const totalKilobytesUsed = Number(totalBytesUsed) / 1000;

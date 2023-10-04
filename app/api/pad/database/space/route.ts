@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     `;
 
       await prisma.$disconnect();
-      console.log({ totalDataUsageQuery });
+
       const totalBytesUsed = totalDataUsageQuery[0].total_bytes_used;
       const totalMegabytesUsed = Number(totalBytesUsed) / 1000000;
       const totalKilobytesUsed = Number(totalBytesUsed) / 1000;

@@ -40,10 +40,9 @@ export default async function File() {
 
   const files = await getFile(user);
   const space = await getSpace(user);
-  console.log({ space });
   return (
     <div>
-      <Drawer />
+      <Drawer fileSpace={space} />
       <ClientFile user={user} files={files} />
     </div>
   );

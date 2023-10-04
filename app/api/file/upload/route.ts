@@ -18,8 +18,6 @@ export async function POST(request: Request) {
       });
     }
 
-    console.log(body);
-
     if (
       user &&
       user.email &&

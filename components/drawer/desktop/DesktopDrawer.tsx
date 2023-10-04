@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-export default function DesktopDrawer() {
+export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
   const [isopen, setisopen] = useState<boolean>(false);
   const space = useAppSelector((state) => state.ui.spaceUsed);
   const dispatch = useAppDispatch();
@@ -152,6 +152,21 @@ export default function DesktopDrawer() {
           ))}
       </div>
 
+      {/* total spaced used storage by an user */}
+      {fileSpace && fileSpace.space ? (
+        <div className="absolute bottom-20">
+          <div className="mt-3">
+            <div className="text-center">
+              <span className="text-xs text-gray-500">Storage:</span>
+            </div>
+            <div className="text-center">
+              <span className="text-xs text-gray-500">
+                {fileSpace.space}Mb <br /> of 1000Mb
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {/* total spaced used database in kb(note column) */}
       {space && space.space ? (
         <div className="absolute bottom-1">

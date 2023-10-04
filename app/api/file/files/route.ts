@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         status: 401,
       });
     }
-    console.log(user);
+
     if (user && user.email && user.id) {
       const pad = await prisma.files.findMany({
         where: {

@@ -13,11 +13,13 @@ export default function ClientDashboard({
   user,
   pads,
   space,
+  fileSpace,
 }: {
   children: React.ReactNode;
   user: any;
   pads: any;
   space: any;
+  fileSpace: any;
 }) {
   const [isprofilemenuopen, setisprofilemenuopen] = useState<boolean>(false);
   const [isSearchLoading, setisSearchLoading] = useState<boolean>(false);
