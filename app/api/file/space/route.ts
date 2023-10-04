@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 
 export async function POST(request: Request) {
   try {
@@ -15,17 +16,6 @@ export async function POST(request: Request) {
     }
 
     if (body && body.id) {
-      const prisma = new PrismaClient();
-
-      // const space = await prisma.file.aggregate({
-      //   _sum: {
-      //     filesize: true,
-      //   },
-      //   // where: {
-      //   //   authorId: body.id,
-      //   // },
-      // });
-
       const totalFileSizeQuery = await prisma.$queryRaw<
         [
           {
@@ -47,7 +37,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json({
         success: true,
-        space: totalKilobytesUsed,
+        space: totalMegabytesUsed,
         status: 200,
       });
     } else {

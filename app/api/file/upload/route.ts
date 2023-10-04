@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 
 export async function POST(request: Request) {
   try {
@@ -30,8 +31,7 @@ export async function POST(request: Request) {
       body.filesize &&
       body.fileType
     ) {
-      const prisma = new PrismaClient();
-      const pad = await prisma.file.create({
+      const pad = await prisma.files.create({
         data: {
           authorId: user.id,
           authorEmail: user.email,

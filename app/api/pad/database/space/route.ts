@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { PrismaClient } from '@prisma/client';
+import prisma from '@/app/api/lib/prisma';
 
 export async function POST(request: Request) {
   try {
@@ -14,8 +15,6 @@ export async function POST(request: Request) {
     }
 
     if (body && body.email) {
-      const prisma = new PrismaClient();
-
       const totalDataUsageQuery = await prisma.$queryRaw<
         [
           {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 
 export async function POST(request: Request) {
   try {
@@ -18,8 +19,6 @@ export async function POST(request: Request) {
     }
 
     if (user && user.email && body && body.id) {
-      const prisma = new PrismaClient();
-
       const padStyles = prisma.padStyle.delete({
         where: {
           id: body.padStyleId,

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +15,6 @@ export async function POST(request: Request) {
     }
     console.log(user);
     if (user && user.email && user.id) {
-      const prisma = new PrismaClient();
       const pad = await prisma.files.findMany({
         where: {
           authorEmail: user.email,

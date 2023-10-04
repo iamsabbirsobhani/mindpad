@@ -20,19 +20,19 @@ export const metadata: Metadata = {
   Intelligent Search: Find what you need instantly with powerful search capabilities.
   Privacy and Security: Your data is safe and secure with our advanced encryption.
   Experience the future of note-taking with MindPad. Try it today and transform the way you capture and manage your ideas. Stay organized, boost productivity, and unlock your full potential with MindPad.`,
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://mindpad.vercel.app/',
-    images: [
-      {
-        url: 'https://firebasestorage.googleapis.com/v0/b/general-eadd6.appspot.com/o/mindpad%2Flogo.png?alt=media&token=d73db76a-5a83-409e-831e-41058770720c&_gl=1*3apbnx*_ga*MTI0MDY2NDcwMC4xNjk0MzIwMTM5*_ga_CW55HF8NVT*MTY5NjA3NTU2Ni4xMC4xLjE2OTYwNzU2NDIuNjAuMC4w',
-        width: 1200,
-        height: 630,
-        alt: 'MindPad',
-      },
-    ],
-  },
+  // openGraph: {
+  //   type: 'website',
+  //   locale: 'en_US',
+  //   url: 'https://mindpad.vercel.app/',
+  //   images: [
+  //     {
+  //       url: 'https://firebasestorage.googleapis.com/v0/b/general-eadd6.appspot.com/o/mindpad%2Flogo.png?alt=media&token=d73db76a-5a83-409e-831e-41058770720c&_gl=1*3apbnx*_ga*MTI0MDY2NDcwMC4xNjk0MzIwMTM5*_ga_CW55HF8NVT*MTY5NjA3NTU2Ni4xMC4xLjE2OTYwNzU2NDIuNjAuMC4w',
+  //       width: 1200,
+  //       height: 630,
+  //       alt: 'MindPad',
+  //     },
+  //   ],
+  // },
 };
 
 export default function RootLayout({
