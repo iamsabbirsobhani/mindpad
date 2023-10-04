@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    console.log({ body: body.id });
     if (!body) {
       return NextResponse.json({
         success: false,
@@ -12,22 +13,33 @@ export async function POST(request: Request) {
         status: 401,
       });
     }
-    console.log(body);
 
     if (body && body.id) {
       const prisma = new PrismaClient();
 
-      const space = prisma.file.aggregate({
-        _sum: {
-          filesize: true,
-        },
-        where: {
-          authorId: body.id,
-        },
-      });
+      // const space = await prisma.file.aggregate({
+      //   _sum: {
+      //     filesize: true,
+      //   },
+      //   // where: {
+      //   //   authorId: body.id,
+      //   // },
+      // });
 
-      console.log({ space: (await space)._sum.filesize });
-      const totalBytesUsed = space;
+      const totalFileSizeQuery = await prisma.$queryRaw<
+        [
+          {
+            total_file_size: number;
+          },
+        ]
+      >`
+  SELECT SUM("filesize") AS total_file_size
+  FROM "files"
+  WHERE "authorEmail" = ${body.email}
+`;
+
+      console.log({ space: totalFileSizeQuery });
+      const totalBytesUsed = totalFileSizeQuery[0].total_file_size || 0;
       const totalMegabytesUsed = Number(totalBytesUsed) / 1000000;
       const totalKilobytesUsed = Number(totalBytesUsed) / 1000;
 

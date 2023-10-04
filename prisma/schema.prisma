@@ -29,7 +29,7 @@ model PadStyle {
     updatedAt DateTime @updatedAt
 }
 
-model file {
+model files {
     id          Int      @id @default(autoincrement())
     authorId    String
     authorEmail String

@@ -15,9 +15,9 @@ export async function POST(request: Request) {
     console.log(user);
     if (user && user.email && user.id) {
       const prisma = new PrismaClient();
-      const pad = await prisma.file.findMany({
+      const pad = await prisma.files.findMany({
         where: {
-          authorId: user.id,
+          authorEmail: user.email,
         },
         orderBy: {
           createdAt: 'desc',

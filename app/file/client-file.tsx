@@ -43,9 +43,12 @@ const columns: GridColDef[] = [
 ];
 
 export default function ClientFile({ user, files }: { user: any; files: any }) {
-  files.pad.forEach((file: any) => {
-    file.createdAt = format(new Date(file.createdAt), 'PPpp');
-  });
+  if (files && files.pad && files.pad.length > 0) {
+    files.pad.forEach((file: any) => {
+      file.createdAt = format(new Date(file.createdAt), 'PPpp');
+    });
+  }
+
   return (
     <div className="mt-10 ml-24 mr-5">
       {/*  */}
@@ -54,7 +57,7 @@ export default function ClientFile({ user, files }: { user: any; files: any }) {
       </div>
       {files && files.pad && files.pad.length > 0 ? (
         <div className=" mt-5">
-          <Box sx={{ height: 400, width: '100%' }}>
+          <Box sx={{ height: 'full', width: '100%' }}>
             <DataGrid
               rows={files && files.pad}
               columns={columns}
