@@ -2,13 +2,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { format } from 'date-fns';
 
 const columns: GridColDef[] = [
   {
     field: 'fileName',
     headerName: 'File Name',
-    width: 150,
-    editable: false,
+    width: 200,
+    editable: true,
   },
   {
     field: 'fileType',
@@ -17,70 +18,63 @@ const columns: GridColDef[] = [
     editable: false,
   },
   {
-    field: 'fileSize',
+    field: 'filesize',
     headerName: 'File Size',
     type: 'number',
     width: 110,
     editable: false,
   },
   {
-    field: 'download',
-    headerName: 'Download',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    editable: false,
-  },
-  {
-    field: 'link',
+    field: 'url',
     headerName: 'File Link',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
-    editable: false,
+    width: 250,
+    editable: true,
   },
   {
     field: 'createdAt',
-    headerName: 'Created At',
+    headerName: 'Created',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
+    width: 200,
     editable: false,
   },
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
-
-export default function ClientFile({ user, files }: { user: any, files: any }) {
+export default function ClientFile({ user, files }: { user: any; files: any }) {
+  files.pad.forEach((file: any) => {
+    file.createdAt = format(new Date(file.createdAt), 'PPpp');
+  });
   return (
     <div className="mt-10 ml-24 mr-5">
-      <div>
-        <Box sx={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            disableRowSelectionOnClick
-          />
-        </Box>
+      {/*  */}
+      <div className="mt-5 mb-2">
+        <h1 className=" text-5xl font-extrabold text-gray-800">Files</h1>
       </div>
+      {files && files.pad && files.pad.length > 0 ? (
+        <div className=" mt-5">
+          <Box sx={{ height: 400, width: '100%' }}>
+            <DataGrid
+              rows={files && files.pad}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[10]}
+              disableRowSelectionOnClick
+            />
+          </Box>
+        </div>
+      ) : (
+        <div>
+          <h1>No files found.</h1>
+        </div>
+      )}
     </div>
   );
 }

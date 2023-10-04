@@ -17,6 +17,20 @@ async function getFile(user: any) {
   return data;
 }
 
+async function getSpace(user: any) {
+  const res = await fetch(API + '/api/file/space', {
+    method: 'POST',
+    body: JSON.stringify(user),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  const data = await res.json();
+  return data;
+}
+
 export default async function File() {
   const { getUser, isAuthenticated } = getKindeServerSession();
   const user = await getUser();
@@ -25,9 +39,8 @@ export default async function File() {
   }
 
   const files = await getFile(user);
-
-  console.log(files);
-
+  const space = await getSpace(user);
+  console.log({ space });
   return (
     <div>
       <Drawer />
