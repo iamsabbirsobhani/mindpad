@@ -229,7 +229,7 @@ export default function Pad({
         url: pathData,
       };
 
-      const res = await fetch('/api/upload/file', {
+      const res = await fetch('/api/file/upload', {
         method: 'POST',
         body: JSON.stringify(fileInfo),
         headers: {
