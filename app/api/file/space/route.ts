@@ -26,11 +26,12 @@ export async function POST(request: Request) {
         },
       });
 
-      await prisma.$disconnect();
-      console.log({ space });
+      console.log({ space: (await space)._sum.filesize });
       const totalBytesUsed = space;
       const totalMegabytesUsed = Number(totalBytesUsed) / 1000000;
       const totalKilobytesUsed = Number(totalBytesUsed) / 1000;
+
+      await prisma.$disconnect();
 
       return NextResponse.json({
         success: true,
