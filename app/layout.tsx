@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import { Providers } from './provider';
+import { Suspense } from 'react';
+import { NavigationEvents } from '@/components/navigation-event';
 
 const nunito = Nunito({ subsets: ['latin'] });
 
@@ -47,6 +49,9 @@ export default function RootLayout({
           <div>{children}</div>
           <Footer />
         </Providers>
+        <Suspense fallback={null}>
+          <NavigationEvents />
+        </Suspense>
       </body>
     </html>
   );

@@ -22,6 +22,7 @@
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "next": "latest",
+    "nprogress": "^0.2.0",
     "react": "latest",
     "react-dom": "latest",
     "react-redux": "^8.1.2",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "latest",
+    "@types/nprogress": "^0.2.1",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",

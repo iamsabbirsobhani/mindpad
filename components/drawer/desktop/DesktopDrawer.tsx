@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { Linkn } from '@/components/Linkn';
 
 export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
   const [isopen, setisopen] = useState<boolean>(false);
@@ -43,7 +44,7 @@ export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
   return (
     <div className="h-full border-r-[1px] w-20 fixed top-0 left-0 p-2 bottom-0 bg-white z-10 ">
       <div className="mt-3">
-        <Link href="/">
+        <Linkn href="/dashboard">
           <Image
             src="/images/icon.png"
             alt="logo"
@@ -51,11 +52,11 @@ export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
             height={40}
             className="m-auto"
           />
-        </Link>
+        </Linkn>
       </div>
 
       <div className="w-11 m-auto mt-10">
-        <Link href="/file">
+        <Linkn href="/file">
           <button
             className={`bg-gray-800 hover:bg-gray-600 rounded-full w-11 h-11 flex justify-center items-center text-gray-50 shadow-lg transition-all duration-700 relative}`}
           >
@@ -74,12 +75,12 @@ export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
               />
             </svg>
           </button>
-        </Link>
+        </Linkn>
       </div>
 
       {path === '/file' ? (
         <div className="w-11 m-auto mt-10">
-          <Link href="/">
+          <Linkn href="/">
             <button
               className={`bg-gray-800 hover:bg-gray-600 rounded-full w-11 h-11 flex justify-center items-center text-gray-50 shadow-lg transition-all duration-700 relative}`}
             >
@@ -98,13 +99,13 @@ export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
                 />
               </svg>
             </button>
-          </Link>
+          </Linkn>
         </div>
       ) : null}
 
       {path === '/dashboard' ? (
         <div className="w-11 m-auto mt-10">
-          <Link href="/dashboard">
+          <Linkn href="/dashboard">
             <button
               className={`bg-gray-800 hover:bg-gray-600 rounded-full w-11 h-11 flex justify-center items-center text-gray-50 shadow-lg transition-all duration-700 relative ${
                 isopen
@@ -128,7 +129,7 @@ export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
                 />
               </svg>
             </button>
-          </Link>
+          </Linkn>
         </div>
       ) : null}
 
