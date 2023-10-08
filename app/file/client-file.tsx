@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
     headerName: 'File Link',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 250,
+    width: 1000,
     editable: true,
   },
   {
