@@ -10,7 +10,8 @@ export default function ClientPad({ email }: { email: any }) {
       const res = await fetch(`/api/pad/${params.id}/${email}`);
       // const data = await res.json();
       // console.log(data);
-      const pad = await res.text();
+      const pad = await res.json();
+      console.log(pad);
     };
     getPad();
   }, [params.id, email]);
