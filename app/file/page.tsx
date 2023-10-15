@@ -2,6 +2,7 @@ import Drawer from '@/components/drawer';
 import ClientFile from './client-file';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { API } from '@/apiendpoint';
+import ProfileMenu from '@/components/profile/profilemenu';
 
 async function getFile(user: any) {
   const res = await fetch(API + '/api/file/files', {
@@ -43,7 +44,9 @@ export default async function File() {
   return (
     <div>
       <Drawer fileSpace={space} />
-      <ClientFile user={user} files={files} />
+      <ClientFile user={user} files={files}>
+        <ProfileMenu />
+      </ClientFile>
     </div>
   );
 }
