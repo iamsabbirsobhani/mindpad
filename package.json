@@ -25,6 +25,7 @@
     "nprogress": "^0.2.0",
     "react": "latest",
     "react-dom": "latest",
+    "react-quill": "^2.0.0",
     "react-redux": "^8.1.2",
     "styled-components": "^5.3.11"
   },
@@ -32,6 +33,7 @@
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "latest",
     "@types/nprogress": "^0.2.1",
+    "@types/quill": "^2.0.12",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",

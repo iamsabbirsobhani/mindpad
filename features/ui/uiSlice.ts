@@ -8,12 +8,16 @@ interface UiState {
     hover: string;
   } | null;
   spaceUsed: any;
+  quillValue: any;
+  isQuillOpen: boolean;
 }
 
 const initialState: UiState = {
   count: 80,
   selectedPad: null,
   spaceUsed: 0,
+  quillValue: '',
+  isQuillOpen: false,
 };
 
 export const uiSlice = createSlice({
@@ -44,10 +48,27 @@ export const uiSlice = createSlice({
     setSpaceUsed: (state: { spaceUsed: any }, action: PayloadAction<any>) => {
       state.spaceUsed = action.payload;
     },
+
+    setQuillValue: (state: { quillValue: any }, action: PayloadAction<any>) => {
+      state.quillValue = action.payload;
+    },
+
+    setIsQuillOpen: (
+      state: { isQuillOpen: boolean },
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isQuillOpen = action.payload;
+    },
   },
 });
 
-export const { countUp, setCount, setSelectedPad, setSpaceUsed } =
-  uiSlice.actions;
+export const {
+  countUp,
+  setCount,
+  setSelectedPad,
+  setSpaceUsed,
+  setQuillValue,
+  setIsQuillOpen,
+} = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -31,9 +31,15 @@ export default function ClientPad({ email }: { email: any }) {
       ) : note && note.pad ? (
         <div className="p-4">
           <div className="bg-white p-4 ">
-            <div className="whitespace-pre-line text-gray-700 break-all">
+            {/* <div className="whitespace-pre-line text-gray-700 break-all">
               {note && note.pad && note.pad.note}
-            </div>
+            </div> */}
+            <div
+              className="whitespace-pre-line  break-all"
+              dangerouslySetInnerHTML={{
+                __html: note && note.pad && note.pad.note,
+              }}
+            ></div>
           </div>
         </div>
       ) : null}
