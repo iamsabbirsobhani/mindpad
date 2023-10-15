@@ -78,7 +78,7 @@ export default function DesktopDrawer({ fileSpace }: { fileSpace: any }) {
         </Linkn>
       </div>
 
-      {path === '/file' ? (
+      {path === '/file' || path.includes('pad') ? (
         <div className="w-11 m-auto mt-10">
           <Linkn href="/">
             <button

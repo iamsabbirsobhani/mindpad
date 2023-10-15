@@ -1,3 +1,4 @@
+import Drawer from '@/components/drawer';
 import ClientPad from './client-pad';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 
@@ -9,6 +10,7 @@ export default async function Pad() {
   }
   return (
     <div>
+      <Drawer fileSpace={null} />
       <ClientPad email={user && user.email} />
     </div>
   );
