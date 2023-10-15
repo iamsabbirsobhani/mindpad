@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { useRef, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { set } from 'lodash';
+import { Linkn } from '../Linkn';
 
 export default function Pad({
   color,
@@ -35,6 +35,7 @@ export default function Pad({
   const [hasErrorMsg, sethasErrorMsg] = useState<boolean>(false);
   const [errorMsg, seterrorMsg] = useState<any>('');
   const [uploadedFilePath, setuploadedFilePath] = useState<any>('');
+
   const handlePadPost = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -503,6 +504,32 @@ export default function Pad({
                   />
                 </svg>
               </button>
+
+              <Linkn href={`/dashboard/pad/${data && data.id}`}>
+                <button
+                  className=" focus:outline-none bg-gray-50 rounded-full w-10 h-10 flex justify-center items-center text-gray-800 relative bottom-1 hover:bg-white transition-all duration-300 active:bg-gray-200"
+                  type="button"
+                  onClick={() => {
+                    console.log(data && data.id);
+                    dispatch(setSelectedPad(null));
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                    />
+                  </svg>
+                </button>
+              </Linkn>
 
               {/* delete button */}
               <button
