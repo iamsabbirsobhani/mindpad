@@ -10,6 +10,8 @@ interface UiState {
   spaceUsed: any;
   quillValue: any;
   isQuillOpen: boolean;
+  currentPage: number;
+  searchKeyword: any;
 }
 
 const initialState: UiState = {
@@ -18,6 +20,8 @@ const initialState: UiState = {
   spaceUsed: 0,
   quillValue: '',
   isQuillOpen: false,
+  currentPage: 1,
+  searchKeyword: '',
 };
 
 export const uiSlice = createSlice({
@@ -59,6 +63,20 @@ export const uiSlice = createSlice({
     ) => {
       state.isQuillOpen = action.payload;
     },
+
+    setCurrentPage: (
+      state: { currentPage: number },
+      action: PayloadAction<number>,
+    ) => {
+      state.currentPage = action.payload;
+    },
+
+    setSearchKeyword: (
+      state: { searchKeyword: any },
+      action: PayloadAction<any>,
+    ) => {
+      state.searchKeyword = action.payload;
+    },
   },
 });
 
@@ -69,6 +87,8 @@ export const {
   setSpaceUsed,
   setQuillValue,
   setIsQuillOpen,
+  setCurrentPage,
+  setSearchKeyword,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

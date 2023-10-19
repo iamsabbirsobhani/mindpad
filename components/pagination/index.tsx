@@ -3,6 +3,7 @@ import usePagination from '@mui/material/usePagination';
 import { styled } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setData } from '@/features/data/dataSlice';
+import { setCurrentPage } from '@/features/ui/uiSlice';
 
 const List = styled('ul')({
   listStyle: 'none',
@@ -15,6 +16,7 @@ const List = styled('ul')({
 
 export default function Pagination({ page }: { page: any }) {
   const user = useAppSelector((state) => state.auth.user);
+  const currentPage = useAppSelector((state) => state.ui.currentPage);
 
   const dispatch = useAppDispatch();
 
@@ -34,9 +36,11 @@ export default function Pagination({ page }: { page: any }) {
 
   const { items } = usePagination({
     count: page,
+    page: currentPage,
     onChange: (e, page) => {
       dispatch(setData([]));
       getPagePads(page - 1).then((data) => {
+        dispatch(setCurrentPage(page));
         dispatch(setData(data));
       });
     },

@@ -3,7 +3,7 @@ import Pad from '@/components/pad/pad';
 import Pagination from '@/components/pagination';
 import { setUser } from '@/features/auth/authSlice';
 import { setData } from '@/features/data/dataSlice';
-import { setSpaceUsed } from '@/features/ui/uiSlice';
+import { setCurrentPage, setSpaceUsed } from '@/features/ui/uiSlice';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { RootState } from '@/store';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -30,6 +30,7 @@ export default function ClientDashboard({
   const [searchMsg, setsearchMsg] = useState<any>('');
   const [isnotFound, setnotFound] = useState<any>(false);
   const padsState = useAppSelector((state: RootState) => state.data.data);
+  const currentPage = useAppSelector((state) => state.ui.currentPage);
   const dispatch = useAppDispatch();
 
   const modalRef = useRef(null);
@@ -111,8 +112,11 @@ export default function ClientDashboard({
   }, [user, dispatch]);
 
   useEffect(() => {
-    dispatch(setData(pads));
-  }, [pads, dispatch]);
+    if (currentPage === 1) {
+      dispatch(setData(pads));
+      dispatch(setCurrentPage(1));
+    }
+  }, [pads, dispatch, currentPage]);
 
   return (
     <>
@@ -210,6 +214,15 @@ export default function ClientDashboard({
             <h1 className="text-2xl mt-3 mb-3 text-gray-800 animate-pulse">
               Searching...
             </h1>
+          </div>
+        ) : null}
+
+        {padsState &&
+        padsState.pad &&
+        padsState.pad.length > 0 &&
+        searchPads.length === 0 ? (
+          <div className="mt-5 mb-2 ml-1">
+            <h1 className="text-lg text-gray-500">Page {currentPage}</h1>
           </div>
         ) : null}
 
