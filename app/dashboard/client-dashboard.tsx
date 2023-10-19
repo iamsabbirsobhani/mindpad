@@ -1,4 +1,5 @@
 'use client';
+import Calender from '@/components/calender';
 import Pad from '@/components/pad/pad';
 import Pagination from '@/components/pagination';
 import { setUser } from '@/features/auth/authSlice';
@@ -149,6 +150,7 @@ export default function ClientDashboard({
               </svg>
             </div>
           </div>
+
           {/* profile */}
           <div className="mr-5 relative">
             <div className="relative">
@@ -189,6 +191,10 @@ export default function ClientDashboard({
               {children}
             </div>
           </div>
+        </div>
+        {/* calander */}
+        <div>
+          <Calender />
         </div>
 
         {/* Notes title */}
