@@ -104,6 +104,61 @@ export default function ClientDashboard({
     search(e);
   };
 
+  const dateSearch = async (date: any) => {
+    if (new Date(date).toISOString() === 'Invalid Date') {
+      setsearchPads([]);
+      setsearchMsg('Something went wrong');
+      setnotFound(true);
+      setisSearchLoading(false);
+    }
+    try {
+      setisSearchLoading(true);
+      const searchedDate = {
+        date: new Date(date).toISOString(),
+      };
+      const res = await fetch('/api/pad/searchbydate', {
+        method: 'POST',
+        body: JSON.stringify(searchedDate),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.status === 200) {
+        const pad = await res.json();
+        if (pad && pad.status === 200) {
+          if (pad && pad.pads && pad.pads.length === 0) {
+            setsearchPads([]);
+            setisSearchLoading(false);
+            setnotFound(true);
+            setsearchMsg('No notes found');
+            return;
+          }
+          setsearchPads(pad.pads);
+          setnotFound(false);
+          setisSearchLoading(false);
+        } else {
+          setsearchPads([]);
+          setsearchMsg(pad);
+          setnotFound(true);
+          setisSearchLoading(false);
+        }
+      } else {
+        setisSearchLoading(false);
+        setsearchPads([]);
+        setsearchMsg('Something went wrong');
+        setnotFound(true);
+        console.log('error');
+      }
+    } catch (error) {
+      console.log(error);
+      setsearchPads([]);
+      setsearchMsg('Something went wrong');
+      setnotFound(true);
+      setisSearchLoading(false);
+    }
+  };
+
   useEffect(() => {
     dispatch(setSpaceUsed(space));
   }, [space, dispatch]);
@@ -194,7 +249,7 @@ export default function ClientDashboard({
         </div>
         {/* calander */}
         <div>
-          <Calender />
+          <Calender dateSearch={dateSearch} />
         </div>
 
         {/* Notes title */}

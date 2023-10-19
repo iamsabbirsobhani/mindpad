@@ -6,14 +6,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { parseISO } from 'date-fns';
 
-export default function Calender() {
+export default function Calender({ dateSearch }: any) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DemoContainer components={['DatePicker']}>
         <DemoItem>
           <DatePicker
             onChange={(value) => {
-              console.log(value);
+              dateSearch(value);
             }}
             defaultValue={parseISO(format(new Date(), 'yyyy-dd-MM'))}
           />
