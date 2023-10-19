@@ -14,10 +14,12 @@ export async function POST(request: Request) {
       });
     }
     if (user && user.email) {
-      const pad = await prisma.pad.findMany({
+      const padQueryExecute = prisma.pad.findMany({
         where: {
           authorEmail: user.email,
         },
+        skip: user.page * 20,
+        take: 20,
         orderBy: {
           createdAt: 'desc',
         },
@@ -26,11 +28,21 @@ export async function POST(request: Request) {
         },
       });
 
+      const pad = await prisma.$transaction([
+        prisma.pad.count({
+          where: {
+            authorEmail: user.email,
+          },
+        }),
+        padQueryExecute,
+      ]);
+
       await prisma.$disconnect();
 
       return NextResponse.json({
         success: true,
-        pad,
+        pad: pad && pad.length > 0 && pad[1],
+        page: pad && pad.length > 0 && Math.ceil(pad[0] / 20),
         status: 200,
       });
     }

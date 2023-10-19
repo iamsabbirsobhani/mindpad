@@ -1,5 +1,8 @@
 'use client';
 import Pad from '@/components/pad/pad';
+import Pagination from '@/components/pagination';
+import { setUser } from '@/features/auth/authSlice';
+import { setData } from '@/features/data/dataSlice';
 import { setSpaceUsed } from '@/features/ui/uiSlice';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { RootState } from '@/store';
@@ -26,6 +29,7 @@ export default function ClientDashboard({
   const [searchPads, setsearchPads] = useState<any>([]);
   const [searchMsg, setsearchMsg] = useState<any>('');
   const [isnotFound, setnotFound] = useState<any>(false);
+  const padsState = useAppSelector((state: RootState) => state.data.data);
   const dispatch = useAppDispatch();
 
   const modalRef = useRef(null);
@@ -101,6 +105,14 @@ export default function ClientDashboard({
   useEffect(() => {
     dispatch(setSpaceUsed(space));
   }, [space, dispatch]);
+
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, [user, dispatch]);
+
+  useEffect(() => {
+    dispatch(setData(pads));
+  }, [pads, dispatch]);
 
   return (
     <>
@@ -234,13 +246,12 @@ export default function ClientDashboard({
                 />
               ))
             : null}
-
           {/* all pads */}
-          {pads &&
-          pads.pad &&
-          pads.pad.length > 0 &&
+          {padsState &&
+          padsState.pad &&
+          padsState.pad.length > 0 &&
           searchPads.length === 0 ? (
-            pads.pad.map((pad: any) => (
+            padsState.pad.map((pad: any) => (
               <Pad
                 key={pad.id}
                 color={
@@ -259,7 +270,13 @@ export default function ClientDashboard({
                 data={pad}
               />
             ))
-          ) : !selectedpadStyle && searchPads && searchPads.length === 0 ? (
+          ) : searchPads.length === 0 ? (
+            <div className="w-32 h-32 mx-auto mt-10">
+              <div className="w-8 h-8 border-t-4 border-t-gray-700 border-l-4 border-l-white border-r-4 border-r-white border-b-white border-b-4  rounded-full animate-spin"></div>
+            </div>
+          ) : null}
+
+          {!pads ? (
             <div className="flex flex-col justify-center items-center w-full">
               <h1 className="text-4xl font-bold text-gray-500">
                 No notes found
@@ -278,6 +295,13 @@ export default function ClientDashboard({
             </div>
           ) : null}
         </div>
+
+        {/* pagination */}
+        {pads && pads.page && pads.page > 1 && searchPads.length === 0 ? (
+          <div className="w-fit mt-5 m-auto">
+            <Pagination page={pads.page} />
+          </div>
+        ) : null}
       </div>
     </>
   );

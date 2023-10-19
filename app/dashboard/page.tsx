@@ -7,7 +7,7 @@ import { API } from '@/apiendpoint';
 async function getData(user: any) {
   const res = await fetch(API + '/api/pads', {
     method: 'POST',
-    body: JSON.stringify(user),
+    body: JSON.stringify({ ...user, page: 0 }),
   });
 
   if (!res.ok) {
